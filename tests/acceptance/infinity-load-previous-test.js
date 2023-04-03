@@ -3,6 +3,15 @@ import { visit, find, settled, triggerEvent, waitUntil } from '@ember/test-helpe
 import { setupApplicationTest } from 'ember-qunit';
 import defaultScenario from '../../mirage/scenarios/default';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import faker from 'faker';
+
+function generateFakeData(qty) {
+  let data = [];
+  for (let i = 0; i < qty; i++) {
+    data.push({id: i, name: faker.company.companyName()});
+  }
+  return data;
+}
 
 module('Acceptance: Infinity Route - load previous', function(hooks) {
   setupApplicationTest(hooks);
@@ -10,6 +19,19 @@ module('Acceptance: Infinity Route - load previous', function(hooks) {
 
   hooks.beforeEach(function() {
     document.getElementById('ember-testing-container').scrollTop = 0;
+    let fakeData = generateFakeData(104);
+    this.server.get('/posts', (schema, request) => {
+      let fd = fakeData;
+      let page = parseInt(request.queryParams.page, 10);
+      let per =  parseInt(request.queryParams.per_page, 10);
+      return {
+        posts: fd.slice((page - 1) * per, Math.min((page) * per, fd.length)),
+        meta: {
+          total_pages: Math.ceil(fd.length/per)
+        }
+      };
+    }, { timing: 500 } /*ms*/);
+
   });
 
   function postList() {
