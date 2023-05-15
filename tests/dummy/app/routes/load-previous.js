@@ -1,11 +1,10 @@
 import Route from '@ember/routing/route';
-import { get } from '@ember/object';
 import { inject as service } from '@ember/service';
 
-export default Route.extend({
-  infinity: service(),
+export default class LoadPreviousroute extends Route {
+  @service infinity;
 
   model({ page }) {
-    return get(this, 'infinity').model('post', { startingPage: page });
+    return this.infinity.model('post', { startingPage: page });
   }
-});
+}

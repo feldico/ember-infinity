@@ -1,8 +1,10 @@
 {{#if this.shouldShow}}
   <div
-    {{did-insert this.didInsertLoader this}}
-    class="{{this.loaderClassNames}}{{if this.viewportEntered " in-viewport"}}{{if this.isDoneLoading " reached-infinity"}}"
+    {{did-insert this.didInsertLoader this this.triggerOffset @scrollable}}
+    {{did-update this.onDidUpdate this.loadStatusDidChange}}
+    class="infinity-loader {{if this.viewportEntered " in-viewport"}}{{if this.isDoneLoading " reached-infinity"}}"
     data-test-infinity-loader
+    ...attributes
   >
     {{#if (has-block)}}
       {{yield this.infinityModelContent}}

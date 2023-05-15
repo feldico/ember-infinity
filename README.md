@@ -839,28 +839,28 @@ import { find, findAll, visit, waitFor, waitUntil } from '@ember/test-helpers';
 test('fetches more data when scrolled into viewport', async function(assert) {
   await visit('/infinity-scrollable');
 
-  assert.equal(findAll('.t-items').length, 10);
-  assert.equal(findAll('.infinity-scrollable.inactive').length, 1, 'component is inactive before fetching more data');
+  assert.strictEqual(findAll('.t-items').length, 10);
+  assert.strictEqual(findAll('.infinity-scrollable.inactive').length, 1, 'component is inactive before fetching more data');
   document.querySelector('.infinity-scrollable').scrollIntoView();
 
   await waitFor('.infinity-scrollable.inactive');
 
-  assert.equal(findAll('.t-items').length, 20);
-  assert.equal(findAll('.infinity-scrollable.inactive').length, 1, 'component is inactive after fetching more data');
+  assert.strictEqual(findAll('.t-items').length, 20);
+  assert.strictEqual(findAll('.infinity-scrollable.inactive').length, 1, 'component is inactive after fetching more data');
 });
 
 test('fetch more data using waitUntil', async function(assert) {
   await visit('/infinity-scrollable');
 
-  assert.equal(findAll('.t-items').length, 10);
-  assert.equal(findAll('.infinity-scrollable.inactive').length, 1, 'component is inactive before fetching more data');
+  assert.strictEqual(findAll('.t-items').length, 10);
+  assert.strictEqual(findAll('.infinity-scrollable.inactive').length, 1, 'component is inactive before fetching more data');
   document.querySelector('.infinity-scrollable').scrollIntoView();
 
   await waitUntil(() => {
     return findAll('.t-items').length === 20;
   });
 
-  assert.equal(findAll('.t-items').length, 20);
-  assert.equal(findAll('.infinity-scrollable.inactive').length, 1, 'component is inactive after fetching more data');
+  assert.strictEqual(findAll('.t-items').length, 20);
+  assert.strictEqual(findAll('.infinity-scrollable.inactive').length, 1, 'component is inactive after fetching more data');
 });
 ```

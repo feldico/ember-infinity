@@ -1,25 +1,28 @@
 import Route from '@ember/routing/route';
 import InfinityModel from 'ember-infinity/lib/infinity-model';
-import { get } from '@ember/object';
-import { inject } from '@ember/service';
+import { inject as service } from '@ember/service';
 
-const ExtendedInfinityModel = InfinityModel.extend({
+class ExtendedInfinityModel extends InfinityModel {
   buildParams() {
-    let params = this._super(...arguments);
+    let params = super.buildParams(...arguments);
     return params;
-  },
+  }
 
   afterInfinityModel(posts) {
-    this.set('canLoadMore', posts.get('length') > 0);
+    this.canLoadMore = posts.length > 0;
   }
-});
+}
 
-export default Route.extend({
-  infinity: inject(),
+export default class ExtendedRoute extends Route {
+  @service infinity;
 
   model() {
-    return get(this, 'infinity').model('post', {
-      perPage: 6,
-    }, ExtendedInfinityModel);
+    return this.infinity.model(
+      'post',
+      {
+        perPage: 6,
+      },
+      ExtendedInfinityModel
+    );
   }
-});
+}

@@ -1,6 +1,6 @@
 import Model, { attr } from '@ember-data/model';
 
-export default Model.extend({
-  name: attr('string'),
-  category: attr('string')
-});
+export default class Post extends Model {
+  @attr('string') name;
+  @attr('string') category;
+}
