@@ -1,6 +1,5 @@
-import EmberObject from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 
-export default EmberObject.extend({
-  name: ''
-});
-
+export default class CustomModel {
+  @tracked name = '';
+}
