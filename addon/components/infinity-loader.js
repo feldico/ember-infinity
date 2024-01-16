@@ -1,8 +1,10 @@
 import { cancel, debounce } from '@ember/runloop';
 import { inject as service } from '@ember/service';
+import { addObserver, removeObserver } from '@ember/object/observers';
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
+import { action, get } from '@ember/object';
+import InfinityModel from 'ember-infinity/lib/infinity-model';
 
 class InfinityLoaderComponent extends Component {
   @service infinity;
@@ -84,11 +86,11 @@ class InfinityLoaderComponent extends Component {
   constructor() {
     super(...arguments);
 
-    this.addObserver('infinityModel', this, this._initialInfinityModelSetup);
+    addObserver(this, 'infinityModel', this, this._initialInfinityModelSetup);
     this._initialInfinityModelSetup();
 
-    this.addObserver('hideOnInfinity', this, this._loadStatusDidChange);
-    this.addObserver('reachedInfinity', this, this._loadStatusDidChange);
+    addObserver(this, 'hideOnInfinity', this, this._loadStatusDidChange);
+    addObserver(this, 'reachedInfinity', this, this._loadStatusDidChange);
   }
 
   /**
@@ -131,9 +133,9 @@ class InfinityLoaderComponent extends Component {
       );
     });
 
-    this.removeObserver('infinityModel', this, this._initialInfinityModelSetup);
-    this.removeObserver('hideOnInfinity', this, this._loadStatusDidChange);
-    this.removeObserver('reachedInfinity', this, this._loadStatusDidChange);
+    removeObserver(this, 'infinityModel', this, this._initialInfinityModelSetup);
+    removeObserver(this, 'hideOnInfinity', this, this._loadStatusDidChange);
+    removeObserver(this, 'reachedInfinity', this, this._loadStatusDidChange);
   }
 
   /**
@@ -169,23 +171,32 @@ class InfinityLoaderComponent extends Component {
   /**
    * @method _initialInfinityModelSetup
    */
-  _initialInfinityModelSetup() {
-    this.infinityModelContent.then((infinityModel) => {
-      if (this.isDestroyed || this.isDestroying) {
-        return;
-      }
+  async _initialInfinityModelSetup() {
+    const infinityModel = await get(this, 'infinityModelContent')
+    const isInstanceOfInfinityModel = infinityModel instanceof InfinityModel;
 
-      infinityModel.on(
-        'infinityModelLoaded',
-        this._loadStatusDidChange.bind(this)
-      );
-      infinityModel._scrollable = this.args.scrollable;
-      this.isDoneLoading = false;
-      if (!this.hideOnInfinity) {
-        this.shouldShow = true;
-      }
-      this._loadStatusDidChange();
-    });
+    if (!isInstanceOfInfinityModel) {
+      return;
+    }
+
+    if (this.isDestroyed || this.isDestroying) {
+      return;
+    }
+
+    infinityModel.on(
+      'infinityModelLoaded',
+      this._loadStatusDidChange.bind(this)
+    );
+
+    infinityModel._scrollable = this.args.scrollable;
+
+    this.isDoneLoading = false;
+
+    if (!this.hideOnInfinity) {
+      this.shouldShow = true;
+    }
+
+    this._loadStatusDidChange();
   }
 
   /**

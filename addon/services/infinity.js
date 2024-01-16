@@ -4,7 +4,7 @@ import InfinityPromiseArray from 'ember-infinity/lib/infinity-promise-array';
 import { getOwner } from '@ember/application';
 import { A } from '@ember/array';
 import { typeOf } from '@ember/utils';
-import { scheduleOnce } from '@ember/runloop';
+import { scheduleOnce, next } from '@ember/runloop';
 import { set, setProperties } from '@ember/object';
 import { checkInstanceOf, paramsCheck } from '../utils';
 import { assert } from '@ember/debug';
@@ -222,7 +222,7 @@ export default class Infinity extends Service {
       instance of InfinityModel
     @return {Ember.RSVP.Promise}
   */
-  model(modelName, options, ExtendedInfinityModel) {
+  async model(modelName, options, ExtendedInfinityModel) {
     if (typeOf(ExtendedInfinityModel) === 'class') {
       if (!(ExtendedInfinityModel.prototype instanceof InfinityModel)) {
         throw new Error("Ember Infinity: You must pass an Infinity Model instance as the third argument");
@@ -309,50 +309,59 @@ export default class Infinity extends Service {
       }
     }
 
-    setProperties(infinityModel, { ...initParams });
-    this._ensureCompatibility(
-      infinityModel.store,
-      infinityModel.storeFindMethod
-    );
+    const initInfinityModel = new Promise((resolve) => {
+      next(() => {
+        setProperties(infinityModel, { ...initParams });
 
-    // route specific (for backwards compat)
-    this.infinityModels.pushObject(infinityModel);
-
-    // internal service specific
-    if (infinityCache) {
-      assert(
-        'timestamp must be a positive integer in milliseconds',
-        infinityCache > 0
-      );
-
-      // 1. create identifier for storage in _cachedCollection
-      let uniqueIdentifier = (modelName += identifier);
-      let _cachedCollection = this._cachedCollection;
-      let cachedModel = _cachedCollection[uniqueIdentifier];
-      if (cachedModel) {
-        // 2. If cachedModel, get future_timestamp (ms since 1970) and compare to now
-        let future_timestamp = Object.keys(cachedModel)[0];
-        if (future_timestamp > Date.now()) {
-          return cachedModel[future_timestamp];
-        } else {
-          // 3. cache collection based on new timestamp
-          cacheInfinityCollection(
-            _cachedCollection,
-            infinityModel,
-            uniqueIdentifier,
-            infinityCache
-          );
-        }
-      } else {
-        // 2. if we are expired (future_timestamp < Date.now()) or cachedModel doesn't exist, cache a new infinityModel + future timestamp
-        cacheInfinityCollection(
-          _cachedCollection,
-          infinityModel,
-          uniqueIdentifier,
-          infinityCache
+        this._ensureCompatibility(
+          infinityModel.store,
+          infinityModel.storeFindMethod
         );
-      }
-    }
+
+        // route specific (for backwards compat)
+        this.infinityModels.pushObject(infinityModel);
+
+        // internal service specific
+        if (infinityCache) {
+          assert(
+            'timestamp must be a positive integer in milliseconds',
+            infinityCache > 0
+          );
+
+          // 1. create identifier for storage in _cachedCollection
+          let uniqueIdentifier = (modelName += identifier);
+          let _cachedCollection = this._cachedCollection;
+          let cachedModel = _cachedCollection[uniqueIdentifier];
+          if (cachedModel) {
+            // 2. If cachedModel, get future_timestamp (ms since 1970) and compare to now
+            let future_timestamp = Object.keys(cachedModel)[0];
+            if (future_timestamp > Date.now()) {
+              return cachedModel[future_timestamp];
+            } else {
+              // 3. cache collection based on new timestamp
+              cacheInfinityCollection(
+                _cachedCollection,
+                infinityModel,
+                uniqueIdentifier,
+                infinityCache
+              );
+            }
+          } else {
+            // 2. if we are expired (future_timestamp < Date.now()) or cachedModel doesn't exist, cache a new infinityModel + future timestamp
+            cacheInfinityCollection(
+              _cachedCollection,
+              infinityModel,
+              uniqueIdentifier,
+              infinityCache
+            );
+          }
+        }
+
+        resolve(infinityModel);
+      });
+    });
+
+    infinityModel = await initInfinityModel;
 
     return InfinityPromiseArray.create({
       promise: this['loadNextPage'](infinityModel),

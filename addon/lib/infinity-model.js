@@ -32,7 +32,7 @@ export default class InfinityModel extends ArrayProxy {
     @type Integer
     @default 0
   */
-  currentPage = 0;
+  @tracked currentPage = 0;
 
   /**
     @private
@@ -40,7 +40,7 @@ export default class InfinityModel extends ArrayProxy {
     @type Object
     @default null
   */
-  extraParams = null;
+  @tracked extraParams = null;
 
   /**
     Used as a marker for the page the route starts on
@@ -50,7 +50,7 @@ export default class InfinityModel extends ArrayProxy {
     @type Integer
     @default 0
   */
-  firstPage = 0;
+  @tracked firstPage = 0;
 
   /**
     @public
@@ -58,7 +58,7 @@ export default class InfinityModel extends ArrayProxy {
     @type Boolean
     @default false
   */
-  isError = false;
+  @tracked isError = false;
 
   /**
     @public
@@ -66,7 +66,7 @@ export default class InfinityModel extends ArrayProxy {
     @type Boolean
     @default false
   */
-  isLoaded = false;
+  @tracked isLoaded = false;
 
   /**
     @public
@@ -74,7 +74,7 @@ export default class InfinityModel extends ArrayProxy {
     @type Boolean
     @default false
   */
-  loadingMore = false;
+  @tracked loadingMore = false;
 
   /**
     Arbitrary meta copied over from
@@ -83,7 +83,7 @@ export default class InfinityModel extends ArrayProxy {
     @type objects
     @default null
   */
-  meta = null;
+  @tracked meta = null;
 
   /**
     @private
@@ -91,21 +91,21 @@ export default class InfinityModel extends ArrayProxy {
     @type Integer
     @default 25
   */
-  perPage = 25;
+  @tracked perPage = 25;
 
   /**
     @public
     @property reachedInfinity
     @default false
    */
-  reachedInfinity = false;
+  @tracked  reachedInfinity = false;
 
   /**
     @public
     @property store
     @default null
    */
-  store = null;
+  @tracked store = null;
 
   /**
     Name of the "per page" param in the
@@ -113,7 +113,7 @@ export default class InfinityModel extends ArrayProxy {
     @type {String}
     @default  "per_page"
    */
-  perPageParam = 'per_page';
+  @tracked perPageParam = 'per_page';
 
   /**
     Name of the "page" param in the
@@ -121,7 +121,7 @@ export default class InfinityModel extends ArrayProxy {
     @type {String}
     @default "page"
    */
-  pageParam = 'page';
+  @tracked pageParam = 'page';
 
   /**
     Path of the "total pages" param in
@@ -129,7 +129,7 @@ export default class InfinityModel extends ArrayProxy {
     @type {String}
     @default "meta.total_pages"
    */
-  totalPagesParam = 'meta.total_pages';
+  @tracked totalPagesParam = 'meta.total_pages';
 
   /**
     Path of the "count" param in indicating
@@ -137,7 +137,7 @@ export default class InfinityModel extends ArrayProxy {
     @type {String}
     @default "meta.count"
    */
-  countParam = 'meta.count';
+  @tracked countParam = 'meta.count';
 
   /**
     The supported findMethod name for
@@ -147,7 +147,7 @@ export default class InfinityModel extends ArrayProxy {
     @property storeFindMethod
     @default null
    */
-  storeFindMethod = null;
+  @tracked storeFindMethod = null;
 
   /**
     @private
@@ -155,7 +155,7 @@ export default class InfinityModel extends ArrayProxy {
     @type Integer
     @default 0
   */
-  _count = 0;
+  @tracked _count = 0;
 
   /**
     @private
@@ -163,7 +163,7 @@ export default class InfinityModel extends ArrayProxy {
     @type Integer
     @default 0
   */
-  _totalPages = 0;
+  @tracked _totalPages = 0;
 
   /**
     @private
@@ -171,7 +171,7 @@ export default class InfinityModel extends ArrayProxy {
     @type String
     @default null
   */
-  _infinityModelName = null;
+  @tracked _infinityModelName = null;
 
   /**
     @private
@@ -179,7 +179,7 @@ export default class InfinityModel extends ArrayProxy {
     @type Boolean
     @default false
   */
-  _firstPageLoaded = false;
+  @tracked _firstPageLoaded = false;
 
   /**
     @private
@@ -187,7 +187,7 @@ export default class InfinityModel extends ArrayProxy {
     @type Integer
     @default 1
   */
-  _increment = 1;
+  @tracked _increment = 1;
 
   /**
     simply used for previous page scrolling abilities and passed from
@@ -197,7 +197,7 @@ export default class InfinityModel extends ArrayProxy {
     @type Integer
     @default null
   */
-  _scrollable = null;
+  @tracked _scrollable = null;
 
   /**
     determines if can load next page or previous page (if applicable)
