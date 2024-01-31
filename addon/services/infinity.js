@@ -273,6 +273,8 @@ export default class Infinity extends Service {
     );
     const countParam = paramsCheck('countParam', options, infinityModel);
     const infinityCache = paramsCheck('infinityCache', options, infinityModel);
+    const meta = paramsCheck('meta', options, infinityModel) || {}
+    const content = A(paramsCheck('content', options, infinityModel)) || A()
 
     // create identifier for use in storing unique cached infinity model
     let identifier = stringifyObjectValues(options);
@@ -286,6 +288,8 @@ export default class Infinity extends Service {
     delete options.infinityCache;
     delete options.store;
     delete options.storeFindMethod;
+    delete options.content;
+    delete options.meta;
 
     let initParams = {
       container: getOwner(this),
@@ -300,7 +304,8 @@ export default class Infinity extends Service {
       _infinityModelName: modelName,
       store,
       storeFindMethod,
-      content: A(),
+      content,
+      meta
     };
 
     for (let key in initParams) {
@@ -378,48 +383,49 @@ export default class Infinity extends Service {
     @param {Integer} increment - to increase page by 1 or -1. Default to increase by one page
     @return {Ember.RSVP.Promise} A Promise that resolves the model
    */
-  loadNextPage(infinityModel, increment = 1) {
+  async loadNextPage(infinityModel, increment = 1) {
     set(infinityModel, 'isLoaded', false);
     set(infinityModel, 'loadingMore', true);
     set(this, '_previousScrollHeight', this._calculateHeight(infinityModel));
 
-    return this._requestNextPage(infinityModel, increment)
-      .then((newObjects) => this._afterInfinityModel(newObjects, infinityModel))
-      .then((newObjects) => this._doUpdate(newObjects, infinityModel))
-      .then((infinityModel) => {
-        if (increment === 1) {
-          // scroll down to load next page
-          infinityModel.incrementProperty('currentPage');
-        } else {
-          if (typeof FastBoot === 'undefined') {
-            let viewportElem = infinityModel._scrollable
-              ? document.querySelector(infinityModel._scrollable)
-              : document.scrollingElement || document.documentElement;
+    try {
+      let newObjects = await this._requestNextPage(infinityModel, increment)
+      newObjects = await this._afterInfinityModel(newObjects, infinityModel)
+      infinityModel = await this._doUpdate(newObjects, infinityModel)
 
-            scheduleOnce('afterRender', this, '_updateScrollTop', {
-              infinityModel,
-              viewportElem,
-            });
-            // scrolled up to load previous page
-            infinityModel.decrementProperty('currentPage');
-          }
+      if (increment === 1) {
+        // scroll down to load next page
+        infinityModel.incrementProperty('currentPage');
+      } else {
+        if (typeof FastBoot === 'undefined') {
+          let viewportElem = infinityModel._scrollable
+            ? document.querySelector(infinityModel._scrollable)
+            : document.scrollingElement || document.documentElement;
+
+          scheduleOnce('afterRender', this, '_updateScrollTop', {
+            infinityModel,
+            viewportElem,
+          });
+          // scrolled up to load previous page
+          infinityModel.decrementProperty('currentPage');
         }
+      }
 
-        set(infinityModel, '_firstPageLoaded', true);
-        let canLoadMore = infinityModel.canLoadMore;
-        set(infinityModel, 'reachedInfinity', !canLoadMore);
+      set(infinityModel, '_firstPageLoaded', true);
+      let canLoadMore = infinityModel.canLoadMore;
+      set(infinityModel, 'reachedInfinity', !canLoadMore);
 
-        if (!canLoadMore) {
-          this._notifyInfinityModelLoaded(infinityModel);
-        }
+      if (!canLoadMore) {
+        this._notifyInfinityModelLoaded(infinityModel);
+      }
 
-        return infinityModel;
-      })
-      .catch((e) => {
-        set(infinityModel, 'isError', true);
-        throw e;
-      })
-      .finally(() => set(infinityModel, 'loadingMore', false));
+      return infinityModel;
+    } catch (e) {
+      set(infinityModel, 'isError', true);
+      throw e;
+    } finally {
+      set(infinityModel, 'loadingMore', false)
+    }
   }
 
   /**
@@ -471,6 +477,14 @@ export default class Infinity extends Service {
   _requestNextPage(infinityModel, increment) {
     const modelName = infinityModel._infinityModelName;
     const params = infinityModel.buildParams(increment);
+
+    if (infinityModel.onRequestNextPage) {
+      return infinityModel.onRequestNextPage(
+        infinityModel,
+        modelName,
+        params
+      );
+    }
 
     return infinityModel.store[infinityModel.storeFindMethod](
       modelName,
