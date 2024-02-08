@@ -275,6 +275,7 @@ export default class Infinity extends Service {
     const infinityCache = paramsCheck('infinityCache', options, infinityModel);
     const meta = paramsCheck('meta', options, infinityModel) || {}
     const content = A(paramsCheck('content', options, infinityModel)) || A()
+    const preContent = A(paramsCheck('preContent', options, infinityModel)) || A()
 
     // create identifier for use in storing unique cached infinity model
     let identifier = stringifyObjectValues(options);
@@ -288,6 +289,7 @@ export default class Infinity extends Service {
     delete options.infinityCache;
     delete options.store;
     delete options.storeFindMethod;
+    delete options.preContent;
     delete options.content;
     delete options.meta;
 
@@ -305,6 +307,7 @@ export default class Infinity extends Service {
       store,
       storeFindMethod,
       content,
+      preContent,
       meta
     };
 
