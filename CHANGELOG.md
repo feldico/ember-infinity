@@ -1,5 +1,16 @@
 # Changelog
 
+## Release (2024-05-22)
+
+ember-infinity 3.0.1 (patch)
+
+#### :memo: Documentation
+* `ember-infinity`
+  * [#4](https://github.com/adopted-ember-addons/ember-infinity/pull/4) Add scrollable to README ([@hhff](https://github.com/hhff))
+
+#### Committers: 1
+- Hugh Francis ([@hhff](https://github.com/hhff))
+
 ## Release (2024-05-16)
 
 ember-infinity 3.0.0 (major)
