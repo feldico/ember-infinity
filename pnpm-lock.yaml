@@ -4,18 +4,13 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-patchedDependencies:
-  github-changelog@1.0.1:
-    hash: y3j3vkmlaqwbvrcmso25eso67i
-    path: patches/github-changelog@1.0.1.patch
-
 importers:
 
   .:
     devDependencies:
       release-plan:
         specifier: ^0.9.0
-        version: 0.9.0
+        version: 0.9.0(encoding@0.1.13)
 
   ember-infinity:
     dependencies:
@@ -8775,11 +8770,11 @@ snapshots:
 
   '@octokit/auth-token@3.0.4': {}
 
-  '@octokit/core@4.2.4':
+  '@octokit/core@4.2.4(encoding@0.1.13)':
     dependencies:
       '@octokit/auth-token': 3.0.4
-      '@octokit/graphql': 5.0.6
-      '@octokit/request': 6.2.8
+      '@octokit/graphql': 5.0.6(encoding@0.1.13)
+      '@octokit/request': 6.2.8(encoding@0.1.13)
       '@octokit/request-error': 3.0.3
       '@octokit/types': 9.3.2
       before-after-hook: 2.2.3
@@ -8793,9 +8788,9 @@ snapshots:
       is-plain-object: 5.0.0
       universal-user-agent: 6.0.1
 
-  '@octokit/graphql@5.0.6':
+  '@octokit/graphql@5.0.6(encoding@0.1.13)':
     dependencies:
-      '@octokit/request': 6.2.8
+      '@octokit/request': 6.2.8(encoding@0.1.13)
       '@octokit/types': 9.3.2
       universal-user-agent: 6.0.1
     transitivePeerDependencies:
@@ -8803,19 +8798,19 @@ snapshots:
 
   '@octokit/openapi-types@18.1.1': {}
 
-  '@octokit/plugin-paginate-rest@6.1.2(@octokit/core@4.2.4)':
+  '@octokit/plugin-paginate-rest@6.1.2(@octokit/core@4.2.4(encoding@0.1.13))':
     dependencies:
-      '@octokit/core': 4.2.4
+      '@octokit/core': 4.2.4(encoding@0.1.13)
       '@octokit/tsconfig': 1.0.2
       '@octokit/types': 9.3.2
 
-  '@octokit/plugin-request-log@1.0.4(@octokit/core@4.2.4)':
+  '@octokit/plugin-request-log@1.0.4(@octokit/core@4.2.4(encoding@0.1.13))':
     dependencies:
-      '@octokit/core': 4.2.4
+      '@octokit/core': 4.2.4(encoding@0.1.13)
 
-  '@octokit/plugin-rest-endpoint-methods@7.2.3(@octokit/core@4.2.4)':
+  '@octokit/plugin-rest-endpoint-methods@7.2.3(@octokit/core@4.2.4(encoding@0.1.13))':
     dependencies:
-      '@octokit/core': 4.2.4
+      '@octokit/core': 4.2.4(encoding@0.1.13)
       '@octokit/types': 10.0.0
 
   '@octokit/request-error@3.0.3':
@@ -8824,23 +8819,23 @@ snapshots:
       deprecation: 2.3.1
       once: 1.4.0
 
-  '@octokit/request@6.2.8':
+  '@octokit/request@6.2.8(encoding@0.1.13)':
     dependencies:
       '@octokit/endpoint': 7.0.6
       '@octokit/request-error': 3.0.3
       '@octokit/types': 9.3.2
       is-plain-object: 5.0.0
-      node-fetch: 2.7.0
+      node-fetch: 2.7.0(encoding@0.1.13)
       universal-user-agent: 6.0.1
     transitivePeerDependencies:
       - encoding
 
-  '@octokit/rest@19.0.13':
+  '@octokit/rest@19.0.13(encoding@0.1.13)':
     dependencies:
-      '@octokit/core': 4.2.4
-      '@octokit/plugin-paginate-rest': 6.1.2(@octokit/core@4.2.4)
-      '@octokit/plugin-request-log': 1.0.4(@octokit/core@4.2.4)
-      '@octokit/plugin-rest-endpoint-methods': 7.2.3(@octokit/core@4.2.4)
+      '@octokit/core': 4.2.4(encoding@0.1.13)
+      '@octokit/plugin-paginate-rest': 6.1.2(@octokit/core@4.2.4(encoding@0.1.13))
+      '@octokit/plugin-request-log': 1.0.4(@octokit/core@4.2.4(encoding@0.1.13))
+      '@octokit/plugin-rest-endpoint-methods': 7.2.3(@octokit/core@4.2.4(encoding@0.1.13))
     transitivePeerDependencies:
       - encoding
 
@@ -9481,7 +9476,7 @@ snapshots:
 
   agent-base@6.0.2:
     dependencies:
-      debug: 4.3.4(supports-color@9.4.0)
+      debug: 4.3.4
     transitivePeerDependencies:
       - supports-color
 
@@ -10777,6 +10772,10 @@ snapshots:
   debug@3.2.7:
     dependencies:
       ms: 2.1.3
+
+  debug@4.3.4:
+    dependencies:
+      ms: 2.1.2
 
   debug@4.3.4(supports-color@9.4.0):
     dependencies:
@@ -12558,7 +12557,7 @@ snapshots:
 
   git-repo-info@2.1.1: {}
 
-  github-changelog@1.0.1(patch_hash=y3j3vkmlaqwbvrcmso25eso67i):
+  github-changelog@1.0.1:
     dependencies:
       '@manypkg/get-packages': 2.2.1
       chalk: 4.1.2
@@ -12872,7 +12871,7 @@ snapshots:
     dependencies:
       '@tootallnate/once': 1.1.2
       agent-base: 6.0.2
-      debug: 4.3.4(supports-color@9.4.0)
+      debug: 4.3.4
     transitivePeerDependencies:
       - supports-color
 
@@ -12887,7 +12886,7 @@ snapshots:
   https-proxy-agent@5.0.1:
     dependencies:
       agent-base: 6.0.2
-      debug: 4.3.4(supports-color@9.4.0)
+      debug: 4.3.4
     transitivePeerDependencies:
       - supports-color
 
@@ -13851,6 +13850,12 @@ snapshots:
     dependencies:
       whatwg-url: 5.0.0
 
+  node-fetch@2.7.0(encoding@0.1.13):
+    dependencies:
+      whatwg-url: 5.0.0
+    optionalDependencies:
+      encoding: 0.1.13
+
   node-int64@0.4.0: {}
 
   node-notifier@10.0.1:
@@ -14509,11 +14514,11 @@ snapshots:
     dependencies:
       jsesc: 0.5.0
 
-  release-plan@0.9.0:
+  release-plan@0.9.0(encoding@0.1.13):
     dependencies:
       '@manypkg/get-packages': 2.2.1
       '@npmcli/package-json': 5.1.0
-      '@octokit/rest': 19.0.13
+      '@octokit/rest': 19.0.13(encoding@0.1.13)
       '@types/fs-extra': 9.0.13
       '@types/js-yaml': 4.0.9
       '@types/semver': 7.5.8
@@ -14523,7 +14528,7 @@ snapshots:
       cli-highlight: 2.1.11
       execa: 4.1.0
       fs-extra: 10.1.0
-      github-changelog: 1.0.1(patch_hash=y3j3vkmlaqwbvrcmso25eso67i)
+      github-changelog: 1.0.1
       js-yaml: 4.1.0
       latest-version: 5.1.0
       parse-github-repo-url: 1.4.1
@@ -14957,7 +14962,7 @@ snapshots:
   socks-proxy-agent@6.2.1:
     dependencies:
       agent-base: 6.0.2
-      debug: 4.3.4(supports-color@9.4.0)
+      debug: 4.3.4
       socks: 2.8.3
     transitivePeerDependencies:
       - supports-color

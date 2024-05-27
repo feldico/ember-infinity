@@ -304,6 +304,24 @@ export default class Infinity extends Service {
       infinityModelForParamsCheck
     );
 
+    // preContent, content, and meta are OPTIONAL, These allow to initialize
+    // the infinity model with a pre-existing array of objects, the best use case
+    // so far would be the data on a shoebox, coming from ember-fastBoot. This way, we
+    // avoid having a second request to the server, and we also maintain the logic
+    // of the infinity model, the current content, the meta, which makes requesting
+    // the next page, or the previous page, or any other action, CONSISTENT.
+
+    const preContent = A(paramsCheck(
+      'preContent',
+      options,
+      infinityModelForParamsCheck
+    )) || A()
+    const meta = paramsCheck(
+      'meta',
+      options,
+      infinityModelForParamsCheck
+    ) || {}
+
     // create identifier for use in storing unique cached infinity model
     let identifier = stringifyObjectValues(options);
 
@@ -316,6 +334,8 @@ export default class Infinity extends Service {
     delete options.infinityCache;
     delete options.store;
     delete options.storeFindMethod;
+    delete options.preContent;
+    delete options.meta;
 
     const initParams = {
       container: getOwner(this),
@@ -331,6 +351,8 @@ export default class Infinity extends Service {
       store,
       storeFindMethod,
       content: A(),
+      preContent,
+      meta
     };
 
     for (let key in initParams) {
@@ -492,6 +514,14 @@ export default class Infinity extends Service {
   _requestNextPage(infinityModel, increment) {
     const modelName = infinityModel._infinityModelName;
     const params = infinityModel.buildParams(increment);
+
+    if (infinityModel.onRequestNextPage) {
+      return infinityModel.onRequestNextPage(
+        infinityModel,
+        modelName,
+        params
+      );
+    }
 
     return infinityModel.store[infinityModel.storeFindMethod](
       modelName,

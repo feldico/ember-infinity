@@ -66,6 +66,35 @@ export default class InfinityModel extends DEFAULTS(addEvented(ArrayProxy)) {
   }
 
   /**
+   * This hook is useful when you have the need to initialize the infinity model
+   * with some data. For example, if you want to load the first page of data using ember-fastboot shoebox
+   * you can do something like this:
+   *
+   * onRequestNextPage (infinityModel, modelName, params) {
+   *   if (this.afterRehydration) {
+          this.set('afterRehydration', false)
+          this.set('preContent.meta', this.meta)
+          return Promise.resolve(this.preContent);
+   *   }
+   *
+   *   return infinityModel.store[infinityModel.storeFindMethod](
+   *     modelName,
+   *     params
+   *   )
+   * }
+   *
+   * Where `this.content` is the data you want to initialize the infinity model with,
+   * previously stored in the shoebox, deserialized and pushed to the store, peeked in this case.
+   * With this, you can avoid the first request to the server because we already have the data.
+   *
+   * @method onRequestNextPage
+   * @param {Ember.ArrayProxy} infinityModel (self)
+   * @param {String} modelName
+   * @param {Object} params
+   * @return {Ember.RSVP.Promise} A Promise that resolves the new objects
+   */
+
+  /**
     abstract after-model hook, can be overridden in subclasses
     Used to keep shape for optimization
 
