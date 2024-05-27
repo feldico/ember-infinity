@@ -66,10 +66,9 @@ if(!e)throw new Error("Ember Infinity: You must pass a Model Name to infinityMod
 const r=void 0===t.startingPage?0:t.startingPage-1,n=0===r?1:r+1,o=t.perPage||25,s=t.store||this.store,l=t.storeFindMethod||"query"
 let u,f
 i?(u=i,f=i.create()):(u=a.I,f=a.I.create())
-const g=(0,a.p)("perPageParam",t,f),m=(0,a.p)("pageParam",t,f),_=(0,a.p)("totalPagesParam",t,f),v=(0,a.p)("countParam",t,f),w=(0,a.p)("infinityCache",t,f),M=(0,h.A)((0,a.p)("preContent",t,O))||(0,h.A)();(0,h.A)((0,a.p)("content",t,O))||(0,h.A)()
-const x=(0,a.p)("meta",t,O)||{}
+const g=(0,a.p)("perPageParam",t,f),m=(0,a.p)("pageParam",t,f),_=(0,a.p)("totalPagesParam",t,f),v=(0,a.p)("countParam",t,f),w=(0,a.p)("infinityCache",t,f),M=(0,h.A)((0,a.p)("preContent",t,f))||(0,h.A)(),x=(0,a.p)("meta",t,f)||{}
 let L=P(t)
-delete t.startingPage,delete t.perPage,delete t.perPageParam,delete t.pageParam,delete t.totalPagesParam,delete t.countParam,delete t.infinityCache,delete t.store,delete t.storeFindMethod,delete t.preContent,delete t.content,delete t.meta
+delete t.startingPage,delete t.perPage,delete t.perPageParam,delete t.pageParam,delete t.totalPagesParam,delete t.countParam,delete t.infinityCache,delete t.store,delete t.storeFindMethod,delete t.preContent,delete t.meta
 const S={container:(0,c.getOwner)(this),currentPage:r,firstPage:n,perPage:o,perPageParam:g,pageParam:m,totalPagesParam:_,countParam:v,extraParams:t,_infinityModelName:e,store:s,storeFindMethod:l,content:(0,h.A)(),preContent:M,meta:x}
 for(let a in S)void 0===S[a]&&delete S[a]
 const O=u.create(S)
@@ -94,8 +93,8 @@ e.exports=require("@ember/object")},71223:e=>{"use strict"
 e.exports=require("@ember/runloop")},82735:e=>{"use strict"
 e.exports=require("@ember/service")},90473:e=>{"use strict"
 e.exports=require("@glimmer/tracking")},64421:e=>{"use strict"
-e.exports=require("rsvp")},53109:(e,t,i)=>{e.exports=function(){var e=_eai_d,t=_eai_r
-function r(e){return e&&e.__esModule?e:Object.assign({default:e},e)}window.emberAutoImportDynamic=function(e){return 1===arguments.length?t("_eai_dyn_"+e):t("_eai_dynt_"+e)(Array.prototype.slice.call(arguments,1))},window.emberAutoImportSync=function(e){return t("_eai_sync_"+e)(Array.prototype.slice.call(arguments,1))},e("@faker-js/faker",[],(function(){return r(i(73725))})),e("ember-infinity/components/infinity-loader",["@glimmer/tracking","@ember/runloop","@ember/object","@ember/service"],(function(){return r(i(36816))})),e("ember-infinity/lib/infinity-model",["@ember/array/proxy","@glimmer/tracking","@ember/object","rsvp"],(function(){return r(i(25178))})),e("ember-infinity/services/infinity",["@ember/service","@ember/array/proxy","@glimmer/tracking","@ember/object","rsvp","@ember/application","@ember/runloop"],(function(){return r(i(93869))})),e("ember-modifier",["@ember/application","@ember/modifier","@ember/destroyable"],(function(){return r(i(71699))})),e("fast-deep-equal",[],(function(){return r(i(92575))})),e("intersection-observer-admin",[],(function(){return r(i(43404))})),e("miragejs",[],(function(){return r(i(96757))})),e("pretender",[],(function(){return r(i(62503))})),e("raf-pool",[],(function(){return r(i(98841))}))}()},72976:function(e,t){window._eai_r=require,window._eai_d=define}},i={}
+e.exports=require("rsvp")},66749:(e,t,i)=>{e.exports=function(){var e=_eai_d,t=_eai_r
+function r(e){return e&&e.__esModule?e:Object.assign({default:e},e)}window.emberAutoImportDynamic=function(e){return 1===arguments.length?t("_eai_dyn_"+e):t("_eai_dynt_"+e)(Array.prototype.slice.call(arguments,1))},window.emberAutoImportSync=function(e){return t("_eai_sync_"+e)(Array.prototype.slice.call(arguments,1))},e("@faker-js/faker",[],(function(){return r(i(73725))})),e("ember-infinity/components/infinity-loader",["@glimmer/tracking","@ember/runloop","@ember/object","@ember/service"],(function(){return r(i(36816))})),e("ember-infinity/lib/infinity-model",["@ember/array/proxy","@glimmer/tracking","@ember/object","rsvp"],(function(){return r(i(25178))})),e("ember-infinity/services/infinity",["@ember/service","@ember/array/proxy","@glimmer/tracking","@ember/object","rsvp","@ember/application","@ember/runloop"],(function(){return r(i(93869))})),e("ember-modifier",["@ember/application","@ember/modifier","@ember/destroyable"],(function(){return r(i(71699))})),e("fast-deep-equal",[],(function(){return r(i(92575))})),e("intersection-observer-admin",[],(function(){return r(i(43404))})),e("miragejs",[],(function(){return r(i(96757))})),e("pretender",[],(function(){return r(i(62503))})),e("raf-pool",[],(function(){return r(i(98841))}))}()},9544:function(e,t){window._eai_r=require,window._eai_d=define}},i={}
 function r(e){var n=i[e]
 if(void 0!==n)return n.exports
 var o=i[e]={id:e,loaded:!1,exports:{}}
@@ -112,6 +111,6 @@ var t=(t,i)=>{var n,o,[a,s,l]=i,u=0
 if(a.some((t=>0!==e[t]))){for(n in s)r.o(s,n)&&(r.m[n]=s[n])
 if(l)var d=l(r)}for(t&&t(i);u<a.length;u++)o=a[u],r.o(e,o)&&e[o]&&e[o][0](),e[o]=0
 return r.O(d)},i=globalThis.webpackChunk_ember_auto_import_=globalThis.webpackChunk_ember_auto_import_||[]
-i.forEach(t.bind(null,0)),i.push=t.bind(null,i.push.bind(i))})(),r.O(void 0,[972],(()=>r(72976)))
-var n=r.O(void 0,[972],(()=>r(53109)))
+i.forEach(t.bind(null,0)),i.push=t.bind(null,i.push.bind(i))})(),r.O(void 0,[972],(()=>r(9544)))
+var n=r.O(void 0,[972],(()=>r(66749)))
 n=r.O(n),__ember_auto_import__=n})()
