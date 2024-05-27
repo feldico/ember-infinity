@@ -2,7 +2,7 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git@github.com:adopted-ember-addons/ember-infinity.git"
+    "url": "git@github.com:feldico/ember-infinity.git"
   },
   "workspaces": [
     "ember-infinity",

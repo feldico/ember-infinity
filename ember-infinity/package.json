@@ -1,5 +1,5 @@
 {
-  "name": "ember-infinity",
+  "name": "@feldico/ember-infinity",
   "version": "3.0.0",
   "description": "Simple, flexible infinite scroll for Ember CLI Apps.",
   "keywords": [
@@ -33,7 +33,7 @@
       "./services/infinity.js": "./dist/_app_/services/infinity.js"
     }
   },
-  "repository": "https://github.com/ember-infinity/ember-infinity",
+  "repository": "https://github.com/feldico/ember-infinity",
   "scripts": {
     "start": "rollup --config --watch",
     "build": "concurrently 'pnpm:build:*'",
