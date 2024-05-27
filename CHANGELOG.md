@@ -1,5 +1,10 @@
 # Changelog
 
+
+
+
+
+
 ## Release (2024-05-16)
 
 ember-infinity 3.0.0 (major)
